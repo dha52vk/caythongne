@@ -15,36 +15,43 @@ $(document).ready(()=>{
 
     var colors = ['yellow', 'green', 'pink', 'blue', 'purple']
     var step = 50, lineLength = 80
-    var stepRot = 2
+    var stepRot = [6,4,3,3,2]
+    var marginAnchor = 30
     for (var i = 0; i < colors.length; i++){
         var color = colors[i];
-        var lineStart = anchorPoint.y + step*(i+1);
+        var lineStart = anchorPoint.y + step*(i)+marginAnchor;
         console.log(Math.cos(rad(anchorRot)))
         var curRot = anchorRot;
-        for (var rot = anchorRot; rot < 180-anchorRot; rot+=stepRot){
-            var startPoint = {x:anchorPoint.x-Math.cos(rad(rot))*step*(i+1),y:lineStart};
-            var endPoint = {x:anchorPoint.x-Math.cos(rad(rot))*(step*(i+1)+lineLength), y:lineStart+Math.sin(rad(anchorRot))*lineLength}
+        for (var rot = anchorRot; rot < 180-anchorRot; rot+=stepRot[i]){
+            var startPoint = {x:anchorPoint.x-Math.cos(rad(rot))*(step*(i)+marginAnchor),y:lineStart};
+            var endPoint = {x:anchorPoint.x-Math.cos(rad(rot))*(step*(i)+marginAnchor+lineLength), y:lineStart+Math.sin(rad(anchorRot))*lineLength}
             draw_line_with_anim(ctx,startPoint,endPoint,color)
         }
     }
-    
+    // return;
     setTimeout(()=>{
-    var colors = ['orange', 'blue', 'red', 'cyan', 'white']
+    var colors = ['rgba(253, 135, 0, 0.6)', 'blue', 'red', 'cyan', 'white']
     var step = 50, lineLength = 40
-    var stepRot = 2
+    var stepRot = [6,4,3,3,2]
     for (var i = 0; i < colors.length; i++){
         var color = colors[i];
         var lineStart = anchorPoint.y+lineLength/2 + step*(i+1);
         console.log(Math.cos(rad(anchorRot)))
         var curRot = anchorRot;
-        for (var rot = anchorRot; rot < 180-anchorRot; rot+=stepRot){
+        for (var rot = anchorRot; rot < 180-anchorRot; rot+=stepRot[i]){
             var startPoint = {x:anchorPoint.x-Math.cos(rad(rot))*step*(i+1),y:lineStart};
             var endPoint = {x:anchorPoint.x-Math.cos(rad(rot))*(step*(i+1)+lineLength), y:lineStart+Math.sin(rad(anchorRot))*lineLength}
             draw_line_with_anim(ctx,startPoint,endPoint,color)
         }
     }}, 1000
     )
+
+    setTimeout(draw_root,1500)
 })
+
+function draw_root(){
+    
+}
 
 function draw_line_with_anim(context,startPoint,endPoint,colorStroke){
     context.beginPath();

@@ -1,16 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cây thông nè</title>
-    <link type="text/css" rel="stylesheet" href="./style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cay thong Noel ne</title>
+    <link rel="stylesheet" href="./style.css" />
     <script src="./jquery.js"></script>
-    <script src="./script.js"></script>
-</head>
-<body>
+    <script>
+      const canvasPadding = 5;
+      var ctx;
+      var n = 100.0;
+      var rot = Math.PI;
+      var xNow=0, yNow=0;
+      var strokeColor = "white";
+      var draw = true;
 
+      $(document).ready(() => {
+        var canvas = document.getElementById("draw_canvas");
+        var width = window.innerWidth - canvasPadding;
+        var height = window.innerHeight - canvasPadding;
+        canvas.width = width;
+        canvas.height = height;
+        ctx = canvas.getContext("2d");
+
+        xNow = width/2;
+        yNow = height/2+50;
+
+        left(90);
+        forward(3 * n);
+        color("orange", "yellow");
+        left(126);
+
+        for (var i = 0; i < 5; i++) {
+          forward(n / 5);
+          right(144);
+          forward(n / 5);
+          left(72);
+        }
+        right(126);
+
+        color("dark green");
+        backward(n * 4.8);
+
+        tree(15, n);
+        backward(n / 2);
+
+        for (var i = 0; i < 200; i++) {
+          a = 200 - 400 * Math.random();
+          b = 10 - 20 * Math.random();
+          up();
+          forward(b);
+          left(90);
+          forward(a);
+          down();
+          if (getRandomInt(0, 1) == 0) color("tomato");
+          else color("wheat");
+          circle(2);
+          up();
+          backward(a);
+          right(90);
+          backward(b);
+        }
+        color("dark red", "red");
+        write("Merry Christmas", "center", "Comic Sans MS", 40, "bold")
+        // drawsnow();
+      });
+
+      function drawlight() {
+        if (getRandomInt(0, 30) === 0) {
+          color("tomato");
+          circle(6);
+        } else if (getRandomInt(0, 30) == 1) {
+          color("orange");
+          circle(3);
+        } else {
+          color("dark green");
+        }
+      }
+
+      function tree(d, s) {
+        if (d <= 0) return;
+        forward(s);
+        tree(d - 1, s * 0.8);
+        right(120);
+        tree(d - 3, s * 0.5);
+        drawlight();
+        right(120);
+        tree(d - 3, s * 0.5);
+        right(120);
+        backward(s);
+      }
+
+      function drawsnow() {
+        t.ht();
+        t.pensize(2);
+        for (var i = 0; i < 200; i++) {
+          t.pencolor("white");
+          t.pu();
+          t.setx(getRandomInt(-350, 350));
+          t.sety(getRandomInt(-100, 350));
+          t.pd();
+          dens = 6;
+          snowsize = getRandomInt(1, 10);
+          for (var j = 0; j < dens; j++) {
+            t.fd(int(snowsize));
+            t.backward(int(snowsize));
+            t.right(int(360 / dens));
+          }
+        }
+      }
+
+      function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function left(deg){
+        rot += deg*Math.PI/180
+      }
+      
+      function right(deg){
+        rot -= deg*Math.PI/180
+      }
+
+      function forward(distance){
+        let stepX = Math.cos(rot)*distance
+        let stepY = Math.sin(rot)*distance
+        if (draw){
+            ctx.beginPath()
+            ctx.moveTo(xNow,yNow);
+            ctx.lineTo(xNow+stepX,yNow+stepY)
+            ctx.closePath();
+            ctx.strokeStyle = strokeColor
+            ctx.stroke()
+        }
+        xNow += stepX;
+        yNow += stepY;
+      }
+
+      function backward(distance){
+        let stepX = -Math.cos(rot)*distance
+        let stepY = -Math.sin(rot)*distance
+        if (draw){
+            ctx.beginPath()
+            ctx.moveTo(xNow,yNow);
+            ctx.lineTo(xNow+stepX,yNow+stepY)
+            ctx.closePath();
+            ctx.stroke()
+        }
+        xNow += stepX;
+        yNow += stepY;
+      }
+
+      function circle(r){
+        ctx.beginPath();
+        ctx.arc(xNow,yNow,r,0,2*Math.PI)
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      function write(text,align,fontname,fontsize,fontstyle){
+        ctx.font = fontstyle + "" + fontsize + "px " + fontname
+        ctx.fillStyle=strokeColor;
+        ctx.fillText(text,xNow,yNow)
+      }
+
+      function up(){
+        draw = false;
+      }
+
+      function down(){
+        draw = true;
+      }
+
+      function color(c){
+        strokeColor = c;
+      }
+    </script>
+  </head>
+  <body>
     <canvas id="draw_canvas"></canvas>
-    
-</body>
+  </body>
 </html>
