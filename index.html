@@ -14,11 +14,12 @@
       var xNow=0, yNow=0;
       var strokeColor = "white";
       var draw = true;
+      var width = -1, height = -1
 
       $(document).ready(() => {
         var canvas = document.getElementById("draw_canvas");
-        var width = window.innerWidth - canvasPadding;
-        var height = window.innerHeight - canvasPadding;
+        width = window.innerWidth - canvasPadding;
+        height = window.innerHeight - canvasPadding;
         canvas.width = width;
         canvas.height = height;
         ctx = canvas.getContext("2d");
@@ -58,7 +59,7 @@
           backward(b);
         }
         color("darkred", "red");
-        write("Merry Christmas\nHuyen <3", "center", "Comic Sans MS", 30, "bold")
+        write("Merry Christmas\nHuyen", "center", "Comic Sans MS", 30, "bold")
         // drawsnow();
       });
 
@@ -117,21 +118,20 @@
       }
 
       function drawsnow() {
-        t.ht();
-        t.pensize(2);
+        ctx.lineWidth = 3
         for (var i = 0; i < 200; i++) {
-          t.pencolor("white");
-          t.pu();
-          t.setx(getRandomInt(-350, 350));
-          t.sety(getRandomInt(-100, 350));
-          t.pd();
+          color("white");
+          setx(getRandomInt(0, width));
+          sety(getRandomInt(0, height));
           dens = 6;
           snowsize = getRandomInt(1, 10);
           for (var j = 0; j < dens; j++) {
-            t.fd(int(snowsize));
-            t.backward(int(snowsize));
-            t.right(int(360 / dens));
+            forward((snowsize));
+            backward((snowsize));
+            right((360 / dens));
+            // circle(10)
           }
+          console.log(xNow + "," + yNow + ": " + snowsize + "  " + strokeColor)
         }
       }
 
@@ -139,6 +139,14 @@
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function setx(x){
+        xNow = x
+      }
+
+      function sety(y){
+        yNow = y
       }
 
       function left(deg){
@@ -197,11 +205,11 @@
         // ctx.strokeText(text,xNow,yNow)
 
         ctx.font = fontstyle + " " + fontsize + "px " + fontname
+        ctx.strokeStyle = "rgba(231, 231, 231,1)"//strokeColor
+        ctx.strokeText(text,xNow,yNow)
+
         ctx.fillStyle=strokeColor;
         ctx.fillText(text,xNow,yNow)
-
-        ctx.strokeStyle = "rgba(231, 231, 231,0.9)"//strokeColor
-        ctx.strokeText(text,xNow,yNow)
 
       }
 
