@@ -57,8 +57,8 @@
           right(90);
           backward(b);
         }
-        color("dark red", "red");
-        write("Merry Christmas", "center", "Comic Sans MS", 40, "bold")
+        color("darkred", "red");
+        write("Merry Christmas\nHuyen <3", "center", "Comic Sans MS", 30, "bold")
         // drawsnow();
       });
 
@@ -189,9 +189,20 @@
       }
 
       function write(text,align,fontname,fontsize,fontstyle){
-        ctx.font = fontstyle + "" + fontsize + "px " + fontname
+        ctx.textAlign = align
+        ctx.textBaseline = "middle"
+
+        // ctx.font = fontstyle + " " + (fontsize + 1) + "px " + fontname
+        // ctx.strokeStyle = 'white'
+        // ctx.strokeText(text,xNow,yNow)
+
+        ctx.font = fontstyle + " " + fontsize + "px " + fontname
         ctx.fillStyle=strokeColor;
         ctx.fillText(text,xNow,yNow)
+
+        ctx.strokeStyle = "rgba(231, 231, 231,0.9)"//strokeColor
+        ctx.strokeText(text,xNow,yNow)
+
       }
 
       function up(){
