@@ -29,14 +29,9 @@
         left(90);
         forward(3 * n);
         color("orange", "yellow");
-        left(126);
 
-        for (var i = 0; i < 5; i++) {
-          forward(n / 5);
-          right(144);
-          forward(n / 5);
-          left(72);
-        }
+        left(126);
+        drawtopstar();
         right(126);
 
         color("dark green");
@@ -66,6 +61,35 @@
         // drawsnow();
       });
 
+      function drawtopstar(){
+        ctx.beginPath()
+        ctx.moveTo(xNow,yNow);
+        for (var i = 0; i < 5; i++) {
+            let distance = n/5
+            let stepX = Math.cos(rot)*distance
+            let stepY = Math.sin(rot)*distance
+            if (draw){
+                ctx.lineTo(xNow+stepX,yNow+stepY)
+            }
+            xNow += stepX;
+            yNow += stepY;
+            right(144);
+            stepX = Math.cos(rot)*distance
+            stepY = Math.sin(rot)*distance
+            if (draw){
+                ctx.lineTo(xNow+stepX,yNow+stepY)
+            }
+            xNow += stepX;
+            yNow += stepY;
+            left(72);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = strokeColor
+        ctx.stroke()
+        ctx.fillStyle = strokeColor
+        ctx.fill()
+      }
+
       function drawlight() {
         if (getRandomInt(0, 30) === 0) {
           color("tomato");
@@ -74,7 +98,7 @@
           color("orange");
           circle(3);
         } else {
-          color("dark green");
+          color("darkgreen");
         }
       }
 
@@ -157,6 +181,9 @@
         ctx.beginPath();
         ctx.arc(xNow,yNow,r,0,2*Math.PI)
         ctx.closePath();
+        ctx.strokeStyle = strokeColor;
+        ctx.fillStyle = strokeColor;
+        ctx.fill();
         ctx.stroke();
       }
 
